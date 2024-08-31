@@ -26,14 +26,27 @@ const HomePage = () => {
   return (
     <>
       <Alert sx={{ mt: '2rem' }} severity="warning" variant="outlined">
-        <AlertTitle>MRT V2 was released October 27, 2023.</AlertTitle>
+        <AlertTitle>
+          MRT V2 was released October 27, 2023, and MRT V3 was released
+          September 2024
+        </AlertTitle>
         <Typography>
           <Link
-            href="https://material-react-table.com/migrating-to-v2"
+            href="https://v2.material-react-table.com/migrating-to-v2"
             passHref
           >
             <MuiLink target="_blank" rel="noopener">
               View the V2 migration docs here
+            </MuiLink>
+          </Link>
+        </Typography>
+        <Typography>
+          <Link
+            href="https://v3.material-react-table.com/migrating-to-v3"
+            passHref
+          >
+            <MuiLink target="_blank" rel="noopener">
+              View the V3 migration docs here
             </MuiLink>
           </Link>
         </Typography>
