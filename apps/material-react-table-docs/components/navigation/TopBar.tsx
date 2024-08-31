@@ -24,8 +24,6 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { useThemeContext } from '../../styles/ThemeContext';
-import docsearch from '@docsearch/js';
-import '@docsearch/css';
 
 const AppBar = styled(MuiAppBar)({
   zIndex: 5,
@@ -139,7 +137,7 @@ export const TopBar = ({ navOpen, setNavOpen }: Props) => {
                   legacyBehavior
                   href={`https://v3.material-react-table.com/${pathname}`}
                 >
-                  <MenuItem sx={{ m: 0 }} value="v2">
+                  <MenuItem sx={{ m: 0 }} value="v3">
                     V3
                   </MenuItem>
                 </Link>
