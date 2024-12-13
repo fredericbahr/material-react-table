@@ -191,7 +191,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
       onDragOver={handleDragOver}
       ref={(node: HTMLTableCellElement) => {
         if (node) {
-          tableHeadCellRefs.current[column.id] = node;
+          tableHeadCellRefs.current![column.id] = node;
           if (columnDefType !== 'group') {
             columnVirtualizer?.measureElement?.(node);
           }
@@ -319,7 +319,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
                       column={column}
                       table={table}
                       tableHeadCellRef={{
-                        current: tableHeadCellRefs.current[column.id],
+                        current: tableHeadCellRefs.current?.[column.id]!,
                       }}
                     />
                   )}

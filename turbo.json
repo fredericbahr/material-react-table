@@ -19,7 +19,7 @@
       "outputs": []
     },
     "docs:build": {
-      "dependsOn": ["lib:build"],
+      "dependsOn": ["^lib:build"],
       "cache": false,
       "outputs": [
         "dist/**",

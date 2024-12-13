@@ -55,7 +55,7 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
 
   const handleSubmitRow = () => {
     //look for auto-filled input values
-    Object.values(editInputRefs?.current)
+    Object.values(editInputRefs.current ?? {})
       .filter((inputRef) => row.id === inputRef?.name?.split('_')?.[0])
       ?.forEach((input) => {
         if (

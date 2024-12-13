@@ -125,8 +125,8 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
                   setShowColumnFilters(true);
                 }
                 queueMicrotask(() => {
-                  filterInputRefs.current[`${column.id}-0`]?.focus?.();
-                  filterInputRefs.current[`${column.id}-0`]?.select?.();
+                  filterInputRefs.current?.[`${column.id}-0`]?.focus?.();
+                  filterInputRefs.current?.[`${column.id}-0`]?.select?.();
                 });
                 event.stopPropagation();
               }}

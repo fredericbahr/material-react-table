@@ -11,7 +11,7 @@ import { MRT_GrabHandleButton } from '../buttons/MRT_GrabHandleButton';
 export interface MRT_TableBodyRowGrabHandleProps<TData extends MRT_RowData>
   extends IconButtonProps {
   row: MRT_Row<TData>;
-  rowRef: RefObject<HTMLTableRowElement>;
+  rowRef: RefObject<HTMLTableRowElement | null>;
   table: MRT_TableInstance<TData>;
 }
 

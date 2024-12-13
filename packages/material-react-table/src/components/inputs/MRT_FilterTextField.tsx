@@ -325,7 +325,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
       title: filterPlaceholder,
     },
     inputRef: (inputRef) => {
-      filterInputRefs.current[`${column.id}-${rangeFilterIndex ?? 0}`] =
+      filterInputRefs.current![`${column.id}-${rangeFilterIndex ?? 0}`] =
         inputRef;
       if (textFieldProps.inputRef) {
         textFieldProps.inputRef = inputRef;

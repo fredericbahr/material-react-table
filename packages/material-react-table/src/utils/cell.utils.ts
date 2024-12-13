@@ -52,7 +52,7 @@ export const openEditingCell = <TData extends MRT_RowData>({
   if (isCellEditable({ cell, table }) && editDisplayMode === 'cell') {
     table.setEditingCell(cell);
     queueMicrotask(() => {
-      const textField = editInputRefs.current[column.id];
+      const textField = editInputRefs.current?.[column.id];
       if (textField) {
         textField.focus();
         textField.select?.();

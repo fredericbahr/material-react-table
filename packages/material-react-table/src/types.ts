@@ -1,6 +1,5 @@
 import {
   type Dispatch,
-  type MutableRefObject,
   type ReactNode,
   type RefObject,
   type SetStateAction,
@@ -308,18 +307,18 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   getTopRows: () => MRT_Row<TData>[];
   options: MRT_StatefulTableOptions<TData>;
   refs: {
-    actionCellRef: MutableRefObject<HTMLTableCellElement | null>;
-    bottomToolbarRef: MutableRefObject<HTMLDivElement | null>;
-    editInputRefs: MutableRefObject<Record<string, HTMLInputElement>>;
-    filterInputRefs: MutableRefObject<Record<string, HTMLInputElement>>;
-    lastSelectedRowId: MutableRefObject<null | string>;
-    searchInputRef: MutableRefObject<HTMLInputElement | null>;
-    tableContainerRef: MutableRefObject<HTMLDivElement | null>;
-    tableFooterRef: MutableRefObject<HTMLTableSectionElement | null>;
-    tableHeadCellRefs: MutableRefObject<Record<string, HTMLTableCellElement>>;
-    tableHeadRef: MutableRefObject<HTMLTableSectionElement | null>;
-    tablePaperRef: MutableRefObject<HTMLDivElement | null>;
-    topToolbarRef: MutableRefObject<HTMLDivElement | null>;
+    actionCellRef: RefObject<HTMLTableCellElement | null>;
+    bottomToolbarRef: RefObject<HTMLDivElement | null>;
+    editInputRefs: RefObject<Record<string, HTMLInputElement> | null>;
+    filterInputRefs: RefObject<Record<string, HTMLInputElement> | null>;
+    lastSelectedRowId: RefObject<null | string>;
+    searchInputRef: RefObject<HTMLInputElement | null>;
+    tableContainerRef: RefObject<HTMLDivElement | null>;
+    tableFooterRef: RefObject<HTMLTableSectionElement | null>;
+    tableHeadCellRefs: RefObject<Record<string, HTMLTableCellElement> | null>;
+    tableHeadRef: RefObject<HTMLTableSectionElement | null>;
+    tablePaperRef: RefObject<HTMLDivElement | null>;
+    topToolbarRef: RefObject<HTMLDivElement | null>;
   };
   setActionCell: Dispatch<SetStateAction<MRT_Cell<TData> | null>>;
   setColumnFilterFns: Dispatch<SetStateAction<MRT_ColumnFilterFnsState>>;
@@ -442,7 +441,7 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     column: MRT_Column<TData, TValue>;
     renderedCellValue: ReactNode;
     row: MRT_Row<TData>;
-    rowRef?: RefObject<HTMLTableRowElement>;
+    rowRef?: RefObject<HTMLTableRowElement | null>;
     staticColumnIndex?: number;
     staticRowIndex?: number;
     table: MRT_TableInstance<TData>;
@@ -824,7 +823,7 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
    * @link https://www.material-react-table.com/docs/api/column-options
    */
   columns: MRT_ColumnDef<TData, any>[];
-  columnVirtualizerInstanceRef?: MutableRefObject<MRT_ColumnVirtualizer | null>;
+  columnVirtualizerInstanceRef?: RefObject<MRT_ColumnVirtualizer | null>;
   columnVirtualizerOptions?:
     | ((props: {
         table: MRT_TableInstance<TData>;
@@ -1325,7 +1324,7 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
     | 'sticky'
     | 'top'
     | 'top-and-bottom';
-  rowVirtualizerInstanceRef?: MutableRefObject<MRT_RowVirtualizer | null>;
+  rowVirtualizerInstanceRef?: RefObject<MRT_RowVirtualizer | null>;
   rowVirtualizerOptions?:
     | ((props: {
         table: MRT_TableInstance<TData>;

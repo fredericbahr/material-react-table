@@ -91,7 +91,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
           input: {
             ref: (node) => {
               if (node) {
-                filterInputRefs.current[`${column.id}-0`] = node;
+                filterInputRefs.current![`${column.id}-0`] = node;
                 // @ts-ignore
                 if (sliderProps?.slotProps?.input?.ref) {
                   //@ts-ignore

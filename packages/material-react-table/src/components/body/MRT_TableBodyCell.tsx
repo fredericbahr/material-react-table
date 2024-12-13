@@ -30,7 +30,7 @@ export interface MRT_TableBodyCellProps<TData extends MRT_RowData>
   extends TableCellProps {
   cell: MRT_Cell<TData>;
   numRows?: number;
-  rowRef: RefObject<HTMLTableRowElement>;
+  rowRef: RefObject<HTMLTableRowElement | null>;
   staticColumnIndex?: number;
   staticRowIndex: number;
   table: MRT_TableInstance<TData>;

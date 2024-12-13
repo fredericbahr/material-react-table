@@ -197,7 +197,7 @@ const table = useMaterialReactTable({
       table.setEditingCell(cell); //set editing cell
       //optionally, focus the text field
       queueMicrotask(() => {
-        const textField = table.refs.editInputRefs.current[column.id];
+        const textField = table.refs.editInputRefs.current?.[column.id];
         if (textField) {
           textField.focus();
           textField.select?.();

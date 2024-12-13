@@ -13,7 +13,7 @@ import { parseFromValuesOrFunc } from '../../utils/utils';
 
 export interface MRT_TableDetailPanelProps<TData extends MRT_RowData>
   extends TableCellProps {
-  parentRowRef: RefObject<HTMLTableRowElement>;
+  parentRowRef: RefObject<HTMLTableRowElement | null>;
   row: MRT_Row<TData>;
   rowVirtualizer?: MRT_RowVirtualizer;
   staticRowIndex: number;

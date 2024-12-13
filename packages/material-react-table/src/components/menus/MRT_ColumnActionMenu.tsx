@@ -117,7 +117,7 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
 
   const handleFilterByColumn = () => {
     setShowColumnFilters(true);
-    queueMicrotask(() => filterInputRefs.current[`${column.id}-0`]?.focus());
+    queueMicrotask(() => filterInputRefs.current?.[`${column.id}-0`]?.focus());
     setAnchorEl(null);
   };
 

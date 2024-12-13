@@ -13,7 +13,7 @@ export interface MRT_TableHeadCellGrabHandleProps<TData extends MRT_RowData>
   extends IconButtonProps {
   column: MRT_Column<TData>;
   table: MRT_TableInstance<TData>;
-  tableHeadCellRef: RefObject<HTMLTableCellElement>;
+  tableHeadCellRef: RefObject<HTMLTableCellElement | null>;
 }
 
 export const MRT_TableHeadCellGrabHandle = <TData extends MRT_RowData>({
