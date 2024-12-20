@@ -150,6 +150,7 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
       ? [
           enableSortingRemoval !== false && (
             <MRT_ActionMenuItem
+              disabled={column.getIsSorted() === false}
               icon={<ClearAllIcon />}
               key={0}
               label={localization.clearSort}
