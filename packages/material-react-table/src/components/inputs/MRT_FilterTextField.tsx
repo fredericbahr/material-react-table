@@ -243,7 +243,10 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
   }
 
   const endAdornment =
-    !isAutocompleteFilter && !isDateFilter && !filterChipLabel ? (
+    !isAutocompleteFilter &&
+    !isDateFilter &&
+    !filterChipLabel &&
+    filterValue.length > 0 ? (
       <InputAdornment
         position="end"
         sx={{ mr: isSelectFilter || isMultiSelectFilter ? '20px' : undefined }}
@@ -434,14 +437,16 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
             <TextField
               {...builtinTextFieldProps}
               {...commonTextFieldProps}
-              InputProps={{
-                ...builtinTextFieldProps.InputProps,
-                startAdornment:
-                  commonTextFieldProps?.InputProps?.startAdornment,
-              }}
-              inputProps={{
-                ...builtinTextFieldProps.inputProps,
-                ...commonTextFieldProps?.inputProps,
+              slotProps={{
+                input: {
+                  ...builtinTextFieldProps.InputProps,
+                  startAdornment:
+                    commonTextFieldProps?.InputProps?.startAdornment,
+                },
+                htmlInput: {
+                  ...builtinTextFieldProps.inputProps,
+                  ...commonTextFieldProps?.inputProps,
+                },
               }}
               onChange={handleTextFieldChange}
               onClick={(e: MouseEvent<HTMLInputElement>) => e.stopPropagation()}
@@ -453,31 +458,36 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
         <TextField
           select={isSelectFilter || isMultiSelectFilter}
           {...commonTextFieldProps}
-          SelectProps={{
-            MenuProps: { disableScrollLock: true },
-            displayEmpty: true,
-            multiple: isMultiSelectFilter,
-            renderValue: isMultiSelectFilter
-              ? (selected: any) =>
-                  !Array.isArray(selected) || selected.length === 0 ? (
-                    <Box sx={{ opacity: 0.5 }}>{filterPlaceholder}</Box>
-                  ) : (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
-                      {selected.map((value: string) => {
-                        const selectedValue = dropdownOptions?.find(
-                          (option) => getValueAndLabel(option).value === value,
-                        );
-                        return (
-                          <Chip
-                            key={value}
-                            label={getValueAndLabel(selectedValue).label}
-                          />
-                        );
-                      })}
-                    </Box>
-                  )
-              : undefined,
-            ...commonTextFieldProps.SelectProps,
+          slotProps={{
+            select: {
+              MenuProps: { disableScrollLock: true },
+              displayEmpty: true,
+              multiple: isMultiSelectFilter,
+              renderValue: isMultiSelectFilter
+                ? (selected: any) =>
+                    !Array.isArray(selected) || selected.length === 0 ? (
+                      <Box sx={{ opacity: 0.5 }}>{filterPlaceholder}</Box>
+                    ) : (
+                      <Box
+                        sx={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}
+                      >
+                        {selected.map((value: string) => {
+                          const selectedValue = dropdownOptions?.find(
+                            (option) =>
+                              getValueAndLabel(option).value === value,
+                          );
+                          return (
+                            <Chip
+                              key={value}
+                              label={getValueAndLabel(selectedValue).label}
+                            />
+                          );
+                        })}
+                      </Box>
+                    )
+                : undefined,
+              ...commonTextFieldProps.SelectProps,
+            },
           }}
           onChange={handleTextFieldChange}
           onClick={(e: MouseEvent<HTMLInputElement>) => e.stopPropagation()}
