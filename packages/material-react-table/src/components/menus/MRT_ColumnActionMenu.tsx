@@ -277,7 +277,7 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
     ...(enableColumnResizing && column.getCanResize()
       ? [
           <MRT_ActionMenuItem
-            disabled={!columnSizing[column.id]}
+            disabled={columnSizing[column.id] === undefined}
             icon={<RestartAltIcon />}
             key={10}
             label={localization.resetColumnSize}
