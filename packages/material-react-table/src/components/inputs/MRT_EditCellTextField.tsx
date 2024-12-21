@@ -110,7 +110,9 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
       fullWidth
       inputRef={(inputRef) => {
         if (inputRef) {
-          editInputRefs.current![column.id] = inputRef;
+          editInputRefs.current![column.id] = isSelectEdit
+            ? inputRef.node
+            : inputRef;
           if (textFieldProps.inputRef) {
             textFieldProps.inputRef = inputRef;
           }
