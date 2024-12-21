@@ -96,6 +96,7 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
   const handleEnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     textFieldProps.onKeyDown?.(event);
     if (event.key === 'Enter' && !event.shiftKey && completesComposition) {
+      console.log('enter key pressed', editInputRefs.current, column.id);
       editInputRefs.current?.[column.id]?.blur();
     }
   };
@@ -110,7 +111,9 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
       fullWidth
       inputRef={(inputRef) => {
         if (inputRef) {
-          editInputRefs.current![column.id] = inputRef;
+          editInputRefs.current![column.id] = isSelectEdit
+            ? inputRef.node
+            : inputRef;
           if (textFieldProps.inputRef) {
             textFieldProps.inputRef = inputRef;
           }
