@@ -54,6 +54,13 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
 
   const isMounted = useRef(false);
 
+  // prevent moving the focus to the next/prev cell when using the arrow keys
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.stopPropagation();
+    }
+  };
+
   useEffect(() => {
     if (isMounted.current) {
       if (columnFilterValue === undefined) {
@@ -84,6 +91,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
             }
           }
         }}
+        onKeyDown={handleKeyDown}
         value={filterValues}
         valueLabelDisplay="auto"
         {...sliderProps}
