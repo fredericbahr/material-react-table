@@ -486,7 +486,9 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
                       </Box>
                     )
                 : undefined,
-              ...commonTextFieldProps.SelectProps,
+            },
+            inputLabel: {
+              shrink: isSelectFilter || isMultiSelectFilter,
             },
           }}
           onChange={handleTextFieldChange}
