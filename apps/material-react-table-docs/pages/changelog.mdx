@@ -7,6 +7,20 @@ import Head from 'next/head';
 
 ## MRT V3 Changelog
 
+### Version 3.1.0 - 2024-12-22
+
+- Un-deprecated several `mui*Props` that were initially marked as deprecated in V3.0.0. They will be sticking around longer than expected until TanStack Table itself handles merging `defaultColumn` options better
+- Updated Types for React 19 (Fixed some JSX namespace issues)
+- MRT_FilterTextField improvements:
+  - Refactored to better use the slotProps API internally, but still accept custom props from `muiFilterTextFieldProps` and the like
+  - Set the visibility of the "Clear" filter text field button to be hidden unless the filter text field has a value
+  - Fixed overlapping input label in select filters
+  - Fixed Range Slider filter keyboard navigation to not move the focus to the next cell when using the arrow keys on the slider
+- Fixed "Clear Sorting" Menu Item not being disabled if there was no sorting applied to that column
+- Fixed bug where "Reset Column Size" Menu Item was disabled when a column had a size of 0
+- Fixed issue with Select Edit inputs not blurring correctly
+- Fixed total selected row count when grouping by columns
+
 ### Version 3.0.3 - 2024-12-13
 
 - Fixed filter text field value
@@ -16,7 +30,7 @@ import Head from 'next/head';
 - Fixed rendering of multi-select filter when filter value is an empty array
 - Rearranged execution of `muiTableBodyCellProps?.onKeyDown` internally to allow these events to be overridden or even skipped
 - Fixed MRT_RowActionMenu key prop internally
-- Corrected Sweedish `sv` locale translations
+- Corrected Swedish `sv` locale translations
 - Removed 'new-password' from autocomplete in text fields and just use 'off'
 
 ### Version 3.0.1 - 2024-09-05
