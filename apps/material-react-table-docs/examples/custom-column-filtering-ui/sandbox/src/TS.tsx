@@ -57,14 +57,19 @@ const Example = () => {
       <MRT_TableContainer table={table} />
       <Paper>
         <Stack p="8px" gap="8px">
-          {table.getLeafHeaders().map((header) => (
-            <MRT_TableHeadCellFilterContainer
-              key={header.id}
-              header={header}
-              table={table}
-              in
-            />
-          ))}
+          {table
+            .getLeafHeaders()
+            .map(
+              (header) =>
+                header.column.getCanFilter() && (
+                  <MRT_TableHeadCellFilterContainer
+                    key={header.id}
+                    header={header}
+                    table={table}
+                    in
+                  />
+                ),
+            )}
         </Stack>
       </Paper>
     </Stack>
