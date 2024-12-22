@@ -35,6 +35,7 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
     getLeftLeafColumns,
     getRightLeafColumns,
     getState,
+    initialState,
     options: {
       enableColumnOrdering,
       enableColumnPinning,
@@ -79,6 +80,16 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
     (col) => col.columnDef.columnDefType === 'group',
   );
 
+  const hasColumnOrderChanged = useMemo(
+    () =>
+      columnOrder.length !== initialState.columnOrder.length ||
+      !columnOrder.every(
+        (column, index) => column === initialState.columnOrder[index],
+      ),
+
+    [columnOrder, initialState.columnOrder],
+  );
+
   const [hoveredColumn, setHoveredColumn] = useState<MRT_Column<TData> | null>(
     null,
   );
@@ -120,6 +131,7 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
                 getDefaultColumnOrderIds(table.options, true),
               )
             }
+            disabled={!hasColumnOrderChanged}
           >
             {localization.resetOrder}
           </Button>
