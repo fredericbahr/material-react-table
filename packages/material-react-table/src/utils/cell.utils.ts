@@ -92,7 +92,7 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
       getMRT_RowSelectionHandler({
         row: cell.row,
         table,
-        //@ts-ignore
+        //@ts-expect-error
         staticRowIndex: +event.target.getAttribute('data-index'),
       })(event as any);
     } else if (

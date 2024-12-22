@@ -44,7 +44,7 @@ export const MRT_TablePaper = <TData extends MRT_RowData>({
       ref={(ref: HTMLDivElement) => {
         tablePaperRef.current = ref;
         if (paperProps?.ref) {
-          //@ts-ignore
+          //@ts-expect-error
           paperProps.ref.current = ref;
         }
       }}

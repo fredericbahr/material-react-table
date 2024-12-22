@@ -57,7 +57,7 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
       ref={(ref: HTMLTableSectionElement) => {
         tableFooterRef.current = ref;
         if (tableFooterProps?.ref) {
-          // @ts-ignore
+          // @ts-expect-error
           tableFooterProps.ref.current = ref;
         }
       }}

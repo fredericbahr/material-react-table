@@ -48,7 +48,7 @@ export const MRT_BottomToolbar = <TData extends MRT_RowData>({
         if (node) {
           bottomToolbarRef.current = node;
           if (toolbarProps?.ref) {
-            // @ts-ignore
+            // @ts-expect-error
             toolbarProps.ref.current = node;
           }
         }

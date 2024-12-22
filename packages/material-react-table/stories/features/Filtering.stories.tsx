@@ -556,7 +556,7 @@ export const CustomFilterComponent = () => (
             value={header.column.getFilterValue() ?? ''}
             variant="standard"
           >
-            {/*@ts-ignore*/}
+            {/*@ts-expect-error*/}
             <MenuItem value={null}>All</MenuItem>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>

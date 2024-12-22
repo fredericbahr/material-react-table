@@ -62,7 +62,7 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
           input.value !== undefined &&
           Object.hasOwn(row?._valuesCache as object, input.name)
         ) {
-          // @ts-ignore
+          // @ts-expect-error
           row._valuesCache[input.name] = input.value;
         }
       });

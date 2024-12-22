@@ -85,7 +85,7 @@ export const prepareColumns = <TData extends MRT_RowData>({
 
       //assign sortingFns
       if (Object.keys(sortingFns).includes(columnDef.sortingFn as string)) {
-        // @ts-ignore
+        // @ts-expect-error
         columnDef.sortingFn = sortingFns[columnDef.sortingFn];
       }
     } else if (columnDef.columnDefType === 'display') {

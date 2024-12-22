@@ -100,9 +100,9 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
             ref: (node) => {
               if (node) {
                 filterInputRefs.current![`${column.id}-0`] = node;
-                // @ts-ignore
+                // @ts-expect-error
                 if (sliderProps?.slotProps?.input?.ref) {
-                  //@ts-ignore
+                  //@ts-expect-error
                   sliderProps.slotProps.input.ref = node;
                 }
               }
@@ -129,12 +129,11 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
         >
           {localization.filterMode.replace(
             '{filterType}',
-            // @ts-ignore
             localization[
               `filter${
                 currentFilterOption?.charAt(0)?.toUpperCase() +
                 currentFilterOption?.slice(1)
-              }`
+              }` as keyof typeof localization
             ],
           )}
         </FormHelperText>

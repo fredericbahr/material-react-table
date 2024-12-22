@@ -44,7 +44,7 @@ export const MRT_TableHead = <TData extends MRT_RowData>({
       ref={(ref: HTMLTableSectionElement) => {
         tableHeadRef.current = ref;
         if (tableHeadProps?.ref) {
-          // @ts-ignore
+          // @ts-expect-error
           tableHeadProps.ref.current = ref;
         }
       }}

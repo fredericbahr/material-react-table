@@ -361,7 +361,7 @@ export const EditingEnabledEditModeCell = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: any) => {
-    //@ts-ignore
+    //@ts-expect-error
     tableData[cell.row.index][cell.column.id] = value;
     setTableData([...tableData]);
   };
@@ -412,7 +412,7 @@ export const EditingEnabledEditModeCellWithRowActions = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: any) => {
-    //@ts-ignore
+    //@ts-expect-error
     tableData[cell.row.index][cell.column.id] = value;
     setTableData([...tableData]);
   };
@@ -464,7 +464,7 @@ export const EditingEnabledEditModeTable = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
-    //@ts-ignore
+    //@ts-expect-error
     tableData[+cell.row.index][cell.column.id] = value;
     setTableData([...tableData]);
     console.info('saved cell with value: ', value);
@@ -1050,7 +1050,7 @@ export const EditingCellManualOnChange = () => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: any) => {
-    //@ts-ignore
+    //@ts-expect-error
     tableData[cell.row.index][cell.column.id] = value;
     setTableData([...tableData]);
   };

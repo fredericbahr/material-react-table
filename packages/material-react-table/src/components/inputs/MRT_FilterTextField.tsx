@@ -107,12 +107,11 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
   const dropdownOptions = useDropdownOptions({ header, table });
 
   const filterChipLabel = ['empty', 'notEmpty'].includes(currentFilterOption)
-    ? //@ts-ignore
-      localization[
+    ? localization[
         `filter${
           currentFilterOption?.charAt?.(0)?.toUpperCase() +
           currentFilterOption?.slice(1)
-        }`
+        }` as keyof typeof localization
       ]
     : '';
 
@@ -243,13 +242,13 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
   }
 
   const endAdornment =
-    !isAutocompleteFilter &&
-    !isDateFilter &&
-    !filterChipLabel &&
-    filterValue.length > 0 ? (
+    !isAutocompleteFilter && !isDateFilter && !filterChipLabel ? (
       <InputAdornment
         position="end"
-        sx={{ mr: isSelectFilter || isMultiSelectFilter ? '20px' : undefined }}
+        sx={{
+          mr: isSelectFilter || isMultiSelectFilter ? '20px' : undefined,
+          visibility: (filterValue?.length ?? 0) > 0 ? 'visible' : 'hidden',
+        }}
       >
         <Tooltip placement="right" title={localization.clearFilter ?? ''}>
           <span>
@@ -291,42 +290,21 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
     </InputAdornment>
   ) : null;
 
-  const commonTextFieldProps: TextFieldProps = {
-    FormHelperTextProps: {
-      sx: {
-        fontSize: '0.75rem',
-        lineHeight: '0.8rem',
-        whiteSpace: 'nowrap',
-      },
-    },
-    InputProps: endAdornment //hack because mui looks for presence of endAdornment key instead of undefined
-      ? { endAdornment, startAdornment }
-      : { startAdornment },
+  const commonTextFieldProps: TextFieldProps<any> = {
     fullWidth: true,
     helperText: showChangeModeButton ? (
       <label>
         {localization.filterMode.replace(
           '{filterType}',
-          // @ts-ignore
           localization[
             `filter${
               currentFilterOption?.charAt(0)?.toUpperCase() +
               currentFilterOption?.slice(1)
-            }`
+            }` as keyof typeof localization
           ],
         )}
       </label>
     ) : null,
-    inputProps: {
-      'aria-label': filterPlaceholder,
-      autoComplete: 'off',
-      disabled: !!filterChipLabel,
-      sx: {
-        textOverflow: 'ellipsis',
-        width: filterChipLabel ? 0 : undefined,
-      },
-      title: filterPlaceholder,
-    },
     inputRef: (inputRef) => {
       filterInputRefs.current![`${column.id}-${rangeFilterIndex ?? 0}`] =
         inputRef;
@@ -341,6 +319,31 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
         : filterPlaceholder,
     variant: 'standard',
     ...textFieldProps,
+    slotProps: {
+      ...textFieldProps.slotProps,
+      formHelperText: {
+        sx: {
+          fontSize: '0.75rem',
+          lineHeight: '0.8rem',
+          whiteSpace: 'nowrap',
+        },
+        ...textFieldProps.slotProps?.formHelperText,
+      },
+      input: endAdornment //hack because mui looks for presence of endAdornment key instead of undefined
+        ? { endAdornment, startAdornment }
+        : { startAdornment },
+      htmlInput: {
+        'aria-label': filterPlaceholder,
+        autoComplete: 'off',
+        disabled: !!filterChipLabel,
+        sx: {
+          textOverflow: 'ellipsis',
+          width: filterChipLabel ? 0 : undefined,
+        },
+        title: filterPlaceholder,
+        ...textFieldProps.slotProps?.htmlInput,
+      },
+    },
     onKeyDown: (e) => {
       e.stopPropagation();
       textFieldProps.onKeyDown?.(e);
@@ -425,27 +428,31 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
           getOptionLabel={(option: DropdownOption) =>
             getValueAndLabel(option).label
           }
-          // @ts-ignore
-          onChange={(_e, newValue: DropdownOption | null) =>
-            handleAutocompleteChange(newValue)
+          onChange={(_e, newValue) =>
+            handleAutocompleteChange(newValue as DropdownOption | null)
           }
           options={
             dropdownOptions?.map((option) => getValueAndLabel(option)) ?? []
           }
           {...autocompleteProps}
-          renderInput={(builtinTextFieldProps) => (
+          renderInput={(builtinTextFieldProps: TextFieldProps) => (
             <TextField
-              {...builtinTextFieldProps}
               {...commonTextFieldProps}
+              {...builtinTextFieldProps}
               slotProps={{
+                ...builtinTextFieldProps.slotProps,
+                ...commonTextFieldProps.slotProps,
                 input: {
                   ...builtinTextFieldProps.InputProps,
+                  ...builtinTextFieldProps.slotProps?.input,
                   startAdornment:
-                    commonTextFieldProps?.InputProps?.startAdornment,
+                    //@ts-expect-error
+                    commonTextFieldProps?.slotProps?.input?.startAdornment,
                 },
                 htmlInput: {
                   ...builtinTextFieldProps.inputProps,
-                  ...commonTextFieldProps?.inputProps,
+                  ...builtinTextFieldProps.slotProps?.htmlInput,
+                  ...commonTextFieldProps?.slotProps?.htmlInput,
                 },
               }}
               onChange={handleTextFieldChange}
@@ -459,13 +466,18 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
           select={isSelectFilter || isMultiSelectFilter}
           {...commonTextFieldProps}
           slotProps={{
+            ...commonTextFieldProps.slotProps,
+            inputLabel: {
+              shrink: isSelectFilter || isMultiSelectFilter,
+              ...(commonTextFieldProps.slotProps?.inputLabel as any),
+            },
             select: {
               MenuProps: { disableScrollLock: true },
               displayEmpty: true,
               multiple: isMultiSelectFilter,
               renderValue: isMultiSelectFilter
                 ? (selected: any) =>
-                    !Array.isArray(selected) || selected.length === 0 ? (
+                    !Array.isArray(selected) || selected?.length === 0 ? (
                       <Box sx={{ opacity: 0.5 }}>{filterPlaceholder}</Box>
                     ) : (
                       <Box
@@ -486,9 +498,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
                       </Box>
                     )
                 : undefined,
-            },
-            inputLabel: {
-              shrink: isSelectFilter || isMultiSelectFilter,
+              ...commonTextFieldProps.slotProps?.select,
             },
           }}
           onChange={handleTextFieldChange}

@@ -129,7 +129,7 @@ export const MRT_TableBodyRow = <TData extends MRT_RowData>({
     density === 'compact' ? 37 : density === 'comfortable' ? 53 : 69;
 
   const customRowHeight =
-    // @ts-ignore
+    // @ts-expect-error
     parseInt(tableRowProps?.style?.height ?? sx?.height, 10) || undefined;
 
   const rowHeight = customRowHeight || defaultRowHeight;

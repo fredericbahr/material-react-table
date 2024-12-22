@@ -79,7 +79,7 @@ export const MRT_TableContainer = <TData extends MRT_RowData>({
         if (node) {
           tableContainerRef.current = node;
           if (tableContainerProps?.ref) {
-            //@ts-ignore
+            //@ts-expect-error
             tableContainerProps.ref.current = node;
           }
         }

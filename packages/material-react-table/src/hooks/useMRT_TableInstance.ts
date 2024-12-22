@@ -247,7 +247,7 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     ],
   );
 
-  //@ts-ignore
+  //@ts-expect-error
   const table = useReactTable({
     onColumnOrderChange,
     onColumnSizingInfoChange,

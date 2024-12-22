@@ -116,7 +116,7 @@ export const useMRT_ColumnVirtualizer = <
   }
 
   if (columnVirtualizerInstanceRef) {
-    //@ts-ignore
+    //@ts-expect-error
     columnVirtualizerInstanceRef.current = columnVirtualizer;
   }
 

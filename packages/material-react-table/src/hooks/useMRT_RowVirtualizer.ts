@@ -68,7 +68,7 @@ export const useMRT_RowVirtualizer = <
   rowVirtualizer.virtualRows = rowVirtualizer.getVirtualItems() as any;
 
   if (rowVirtualizerInstanceRef) {
-    //@ts-ignore
+    //@ts-expect-error
     rowVirtualizerInstanceRef.current = rowVirtualizer;
   }
 

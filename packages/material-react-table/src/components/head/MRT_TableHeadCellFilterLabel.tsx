@@ -76,12 +76,11 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
           .replace(
             '{filterType}',
             currentFilterOption
-              ? // @ts-ignore
-                localization[
+              ? localization[
                   `filter${
-                    currentFilterOption?.charAt(0)?.toUpperCase() +
-                    currentFilterOption?.slice(1)
-                  }`
+                    currentFilterOption.charAt(0).toUpperCase() +
+                    currentFilterOption.slice(1)
+                  }` as keyof typeof localization
                 ]
               : '',
           )
@@ -109,8 +108,7 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
         in={
           columnFilterDisplayMode === 'popover' ||
           (!!filterValue && !isRangeFilter) ||
-          (isRangeFilter && // @ts-ignore
-            (!!filterValue?.[0] || !!filterValue?.[1]))
+          (isRangeFilter && (!!filterValue?.[0] || !!filterValue?.[1]))
         }
         unmountOnExit
       >
@@ -158,7 +156,7 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
           disableScrollLock
           onClick={(event) => event.stopPropagation()}
           onClose={(event) => {
-            //@ts-ignore
+            //@ts-expect-error
             event.stopPropagation();
             setAnchorEl(null);
           }}

@@ -187,7 +187,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
     (parseFromValuesOrFunc(enableClickToCopy, cell) === true ||
       parseFromValuesOrFunc(columnDef.enableClickToCopy, cell) === true) &&
     !['context-menu', false].includes(
-      // @ts-ignore
+      // @ts-expect-error
       parseFromValuesOrFunc(columnDef.enableClickToCopy, cell),
     );
 
