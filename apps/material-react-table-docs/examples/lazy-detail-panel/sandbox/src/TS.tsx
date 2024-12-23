@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -164,16 +164,27 @@ const Example = () => {
   return <MaterialReactTable table={table} />;
 };
 
-const queryClient = new QueryClient();
-
-const ExampleWithReactQueryProvider = () => (
-  //App.tsx or AppProviders file. Don't just wrap this component with QueryClientProvider! Wrap your whole App!
-  <QueryClientProvider client={queryClient}>
-    <Example />
-  </QueryClientProvider>
+//react query setup in App.tsx
+const ReactQueryDevtoolsProduction = lazy(() =>
+  import('@tanstack/react-query-devtools/build/modern/production.js').then(
+    (d) => ({
+      default: d.ReactQueryDevtools,
+    }),
+  ),
 );
 
-export default ExampleWithReactQueryProvider;
+const queryClient = new QueryClient();
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+      <Suspense fallback={null}>
+        <ReactQueryDevtoolsProduction />
+      </Suspense>
+    </QueryClientProvider>
+  );
+}
 
 //fetch user hook
 const useFetchUsers = ({

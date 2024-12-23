@@ -1,4 +1,6 @@
 import {
+  lazy,
+  Suspense,
   type UIEvent,
   useCallback,
   useEffect,
@@ -75,18 +77,15 @@ const Example = () => {
   const { data, fetchNextPage, isError, isFetching, isLoading } =
     useInfiniteQuery<UserApiResponse>({
       queryKey: [
-        'table-data',
-        columnFilters, //refetch when columnFilters changes
-        globalFilter, //refetch when globalFilter changes
-        sorting, //refetch when sorting changes
+        'users-list',
+        {
+          columnFilters, //refetch when columnFilters changes
+          globalFilter, //refetch when globalFilter changes
+          sorting, //refetch when sorting changes
+        },
       ],
       queryFn: async ({ pageParam }) => {
-        const url = new URL(
-          '/api/data',
-          process.env.NODE_ENV === 'production'
-            ? 'https://www.material-react-table.com'
-            : 'http://localhost:3000',
-        );
+        const url = new URL('/api/data', location.origin); // nextjs api route
         url.searchParams.set('start', `${(pageParam as number) * fetchSize}`);
         url.searchParams.set('size', `${fetchSize}`);
         url.searchParams.set('filters', JSON.stringify(columnFilters ?? []));
@@ -186,13 +185,24 @@ const Example = () => {
   return <MaterialReactTable table={table} />;
 };
 
-const queryClient = new QueryClient();
-
-const ExampleWithReactQueryProvider = () => (
-  //App.tsx or AppProviders file. Don't just wrap this component with QueryClientProvider! Wrap your whole App!
-  <QueryClientProvider client={queryClient}>
-    <Example />
-  </QueryClientProvider>
+//react query setup in App.tsx
+const ReactQueryDevtoolsProduction = lazy(() =>
+  import('@tanstack/react-query-devtools/build/modern/production.js').then(
+    (d) => ({
+      default: d.ReactQueryDevtools,
+    }),
+  ),
 );
 
-export default ExampleWithReactQueryProvider;
+const queryClient = new QueryClient();
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+      <Suspense fallback={null}>
+        <ReactQueryDevtoolsProduction />
+      </Suspense>
+    </QueryClientProvider>
+  );
+}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   // createRow,
@@ -334,16 +334,27 @@ function useDeleteUser() {
   });
 }
 
-const queryClient = new QueryClient();
-
-const ExampleWithProviders = () => (
-  //Put this with your other react-query providers near root of your app
-  <QueryClientProvider client={queryClient}>
-    <Example />
-  </QueryClientProvider>
+//react query setup in App.tsx
+const ReactQueryDevtoolsProduction = lazy(() =>
+  import('@tanstack/react-query-devtools/build/modern/production.js').then(
+    (d) => ({
+      default: d.ReactQueryDevtools,
+    }),
+  ),
 );
 
-export default ExampleWithProviders;
+const queryClient = new QueryClient();
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+      <Suspense fallback={null}>
+        <ReactQueryDevtoolsProduction />
+      </Suspense>
+    </QueryClientProvider>
+  );
+}
 
 const validateRequired = (value: string) => !!value.length;
 const validateEmail = (email: string) =>

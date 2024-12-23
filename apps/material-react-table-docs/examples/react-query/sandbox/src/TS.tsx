@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -54,12 +54,13 @@ const Example = () => {
     refetch,
   } = useQuery<UserApiResponse>({
     queryKey: [
-      'table-data',
-      columnFilters, //refetch when columnFilters changes
-      globalFilter, //refetch when globalFilter changes
-      pagination.pageIndex, //refetch when pagination.pageIndex changes
-      pagination.pageSize, //refetch when pagination.pageSize changes
-      sorting, //refetch when sorting changes
+      'users-list',
+      {
+        columnFilters, //refetch when columnFilters changes
+        globalFilter, //refetch when globalFilter changes
+        pagination, //refetch when pagination changes
+        sorting, //refetch when sorting changes
+      },
     ],
     queryFn: async () => {
       const fetchURL = new URL('/api/data', location.origin);
@@ -158,13 +159,24 @@ const Example = () => {
   return <MaterialReactTable table={table} />;
 };
 
-const queryClient = new QueryClient();
-
-const ExampleWithReactQueryProvider = () => (
-  //App.tsx or AppProviders file. Don't just wrap this component with QueryClientProvider! Wrap your whole App!
-  <QueryClientProvider client={queryClient}>
-    <Example />
-  </QueryClientProvider>
+//react query setup in App.tsx
+const ReactQueryDevtoolsProduction = lazy(() =>
+  import('@tanstack/react-query-devtools/build/modern/production.js').then(
+    (d) => ({
+      default: d.ReactQueryDevtools,
+    }),
+  ),
 );
 
-export default ExampleWithReactQueryProvider;
+const queryClient = new QueryClient();
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+      <Suspense fallback={null}>
+        <ReactQueryDevtoolsProduction />
+      </Suspense>
+    </QueryClientProvider>
+  );
+}
